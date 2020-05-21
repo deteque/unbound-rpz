@@ -1,6 +1,6 @@
 FROM debian:buster-slim
 LABEL maintainer="Andrew Fried <afried@deteque.com>"
-ENV UNBOUND_VERSION=1.10.0
+ENV UNBOUND_VERSION=1.10.1
 
 RUN 	mkdir -p /etc/unbound \
 	&& chmod 1777 /etc/unbound \
@@ -43,7 +43,7 @@ RUN 	./configure \
 	--sysconfdir=/etc \
 	--with-libevent \
 	&& make \
-	&& make install
+	&& make install 
 
 COPY	scripts /root/scripts
 
