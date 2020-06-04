@@ -1,7 +1,7 @@
 #
 # Example configuration file.
 #
-# See unbound.conf(5) man page, version 1.10.0.
+# See unbound.conf(5) man page, version 1.10.1.
 #
 # this is a comment.
 
@@ -290,7 +290,7 @@ server:
 	# How to do this is specific to your OS.
 	#
 	# If you give "" no chroot is performed. The path must not end in a /.
-	# chroot: "/etc/unbound"
+	# chroot: "/usr/local/etc/unbound"
 
 	# if given, user privileges are dropped (after binding port),
 	# and the given username is assumed. Default is user "unbound".
@@ -302,7 +302,7 @@ server:
 	# is not changed.
 	# If you give a server: directory: dir before include: file statements
 	# then those includes can be relative to the working directory.
-	# directory: "/etc/unbound"
+	# directory: "/usr/local/etc/unbound"
 
 	# the log file, "" means log to stderr.
 	# Use of this option sets use-syslog to "no".
@@ -338,7 +338,7 @@ server:
 	# log-servfail: no
 
 	# the pid file. Can be an absolute path outside of chroot/work dir.
-	# pidfile: "/etc/unbound/unbound.pid"
+	# pidfile: "/usr/local/etc/unbound/unbound.pid"
 
 	# file to read root hints from.
 	# get one from https://www.internic.net/domain/named.cache
@@ -489,7 +489,7 @@ server:
 	# you start unbound (i.e. in the system boot scripts).  And enable:
 	# Please note usage of unbound-anchor root anchor is at your own risk
 	# and under the terms of our LICENSE (see that file in the source).
-	# auto-trust-anchor-file: "/etc/unbound/root.key"
+	# auto-trust-anchor-file: "/usr/local/etc/unbound/root.key"
 
 	# trust anchor signaling sends a RFC8145 key tag query after priming.
 	# trust-anchor-signaling: yes
@@ -845,7 +845,7 @@ server:
 # o and give a python-script to run.
 python:
 	# Script file to load
-	# python-script: "/etc/unbound/ubmodule-tst.py"
+	# python-script: "/usr/local/etc/unbound/ubmodule-tst.py"
 
 # Remote control config section.
 remote-control:
@@ -868,16 +868,16 @@ remote-control:
 	# control-use-cert: "yes"
 
 	# unbound server key file.
-	# server-key-file: "/etc/unbound/unbound_server.key"
+	# server-key-file: "/usr/local/etc/unbound/unbound_server.key"
 
 	# unbound server certificate file.
-	# server-cert-file: "/etc/unbound/unbound_server.pem"
+	# server-cert-file: "/usr/local/etc/unbound/unbound_server.pem"
 
 	# unbound-control key file.
-	# control-key-file: "/etc/unbound/unbound_control.key"
+	# control-key-file: "/usr/local/etc/unbound/unbound_control.key"
 
 	# unbound-control certificate file.
-	# control-cert-file: "/etc/unbound/unbound_control.pem"
+	# control-cert-file: "/usr/local/etc/unbound/unbound_control.pem"
 
 # Stub zones.
 # Create entries like below, to make all queries for 'example.com' and

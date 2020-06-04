@@ -5,6 +5,7 @@ ENV UNBOUND_VERSION=1.10.1
 RUN 	mkdir -p /etc/unbound \
 	&& chmod 1777 /etc/unbound \
 	&& mkdir -p /root/scripts \
+	&& mkdir -p /root/unbound \
 	&& apt-get clean \
 	&& apt-get update \
 	&& apt-get -y dist-upgrade \
@@ -46,6 +47,8 @@ RUN 	./configure \
 	&& make install 
 
 COPY	scripts /root/scripts
+COPY	unbound.conf /root/unbound/unbound.conf
+COPY	sysctl.conf /etc/sysctl.conf
 
 WORKDIR /etc/unbound
 
@@ -53,5 +56,6 @@ EXPOSE 53/tcp
 EXPOSE 53/udp
 
 VOLUME [ "/etc/unbound" ]
+VOLUME [ "/etc/letsencrypt" ]
 
 CMD [ "/usr/sbin/unbound","-c","/etc/unbound/unbound.conf" ]
