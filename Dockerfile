@@ -48,7 +48,7 @@ RUN 	./configure \
 
 COPY	scripts /root/scripts
 COPY	unbound.conf /root/unbound/unbound.conf
-COPY	sysctl.conf /etc/sysctl.conf
+COPY	unbound.conf.DISTRIBUTION_1.10.1 /root/unbound/unbound.conf.DISTRIBUTION
 
 WORKDIR /etc/unbound
 
