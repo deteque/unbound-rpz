@@ -29,7 +29,7 @@ This will add keys for DNSSEC, unbound-control and create the root.cache which i
   /usr/bin/wget --user=ftp --password=ftp ftp://ftp.rs.internic.net/domain/db.cache -O /etc/unbound/root.cache
   
 # 3.) Create the unbound configuration file
-The primary configuration file for unbound is unbound.conf. From within the container, a "mostly" configured unbound.conf can be found at /root/unbound/unbound.conf.  The sample file contains everything needed to get the dns server up and running except for the master IPs in the RPZ section as well as ACL information. This file is truncate to include only the relevant options. The full configuration file can be found at /root/unbound/unbound.conf.DISTRIBUTION.
+The primary configuration file for unbound is unbound.conf. From within the container, a "mostly" configured unbound.conf can be found at /root/unbound/unbound.conf.  The sample file contains everything needed to get the dns server up and running except for the master IPs in the RPZ section as well as ACL information. This file is truncated to include only the relevant options. The full configuration file can be found at /root/unbound/unbound.conf.DISTRIBUTION.
 These files can be copied from the docker image with this script:
 
 	docker run --rm -v /etc/unbound:/etc/unbound/ deteque/unbound-rpz /bin/cp /root/unbound/unbound.conf /etc/unbound/zonefiles/
@@ -43,11 +43,11 @@ In the rpz section of the configuration file you will see a layout like the one 
 
 <pre>
 	rpz:
-        	name: <zone-name>
-	        zonefile: zonefiles/<zone-name>
-	        master: <distribution-masters>
+        	name: [zone-name]
+	        zonefile: zonefiles/[zone-name]
+	        master: [distribution-masters]
         	rpz-log: yes
-        	rpz-log-name: <zone-name>
+        	rpz-log-name: [zone-name]
 </pre>
 
 
@@ -66,15 +66,17 @@ To prevent your RPZ enabled server from becoming an open recursive, an access li
 </pre>  
  
 # 6.) Setup TLS (optional)
-This step is optional, please skip it unless you require TLS.
+Unbound provides native support for DNS over TLS (DoT).  If implemented, Unbound will open up TCP port 853 and accept encrypted queries.  If you wish to implement DoT you'll also require a proxy on the client side that will accept dns queries, encrypt them then forward them to your DoT enabled Unbound server.  One popular dns proxy that supports DoT is called stubby.  We publish a stubby Docker image that should be ideal for testing out DoT; you can pull it from Docker Hub at deteque/stubby.
 
-To set up TLS you first have to have Certbot installed and already operational certificates.
+In order to implement DoT in Unbound you'll first need to obtain TLS certificates.  We recommend using bona fide certs rather than self-signed certs.  The easiest way to obtain legitimate certs is to use LetsEncrypt.
 
-You must uncomment these lines in the unbound.conf file and edit them where relevant, particularly the <server-name>:
+To set up TLS you first have to have Certbot installed and have already operational certificates.
+
+You must uncomment these lines in the unbound.conf file and edit them where relevant, particularly the [server-name]:
 
 <pre>
-        #tls-service-key: "/etc/letsencrypt/live/<server-name>/privkey.pem"
-        #tls-service-pem: "/etc/letsencrypt/live/<server-name>/fullchain.pem"
+        #tls-service-key: "/etc/letsencrypt/live/[server-name]/privkey.pem"
+        #tls-service-pem: "/etc/letsencrypt/live/[server-name]/fullchain.pem"
         #tls-port: 853
 
         #tls-ciphers: "DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-SHA256:DHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256"
