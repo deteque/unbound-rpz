@@ -70,9 +70,19 @@ Unbound provides native support for DNS over TLS (DoT).  If implemented, Unbound
 
 In order to implement DoT in Unbound you'll first need to obtain TLS certificates.  We recommend using bona fide certs rather than self-signed certs.  The easiest way to obtain legitimate certs is to use LetsEncrypt.
 
-To set up TLS you first have to have Certbot installed and have already operational certificates.
+In order to install certificates from LetsEncrypt you will have to install "certbot". Running the following commands will install certbot and create certificates:
 
-You must uncomment these lines in the unbound.conf file and edit them where relevant, particularly the [server-name]:
+<pre>
+
+mkdir -p /web/certs
+cd /web/certs
+/usr/bin/wget https://dl.eff.org/certbot-auto
+chmod 700 /web/certs/certbot-auto
+/web/certs/certbot-auto certonly --standalone -d [DOMAIN-NAME]
+
+</pre>
+
+To enable DoT and TLS in the unbound service you must uncomment these lines in the unbound.conf file and edit them where relevant, particularly the [server-name]:
 
 <pre>
         #tls-service-key: "/etc/letsencrypt/live/[server-name]/privkey.pem"
