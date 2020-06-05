@@ -70,7 +70,7 @@ Unbound provides native support for DNS over TLS (DoT).  If implemented, Unbound
 
 In order to implement DoT in Unbound you'll first need to obtain TLS certificates.  We recommend using bona fide certs rather than self-signed certs.  The easiest way to obtain legitimate certs is to use LetsEncrypt.
 
-In order to install certificates from LetsEncrypt you will have to install "certbot". Running the following commands will install certbot and create certificates:
+In order to install certificates from LetsEncrypt you will have to install "certbot". To install certbot port 80 must be open, not firewalled off, and not in use by another service. Running the following commands will install certbot and create certificates, replace [DOMAIN-NAME] with the fully qualified domain name of the server, excluding the brackets:
 
 <pre>
 
@@ -82,11 +82,11 @@ chmod 700 /web/certs/certbot-auto
 
 </pre>
 
-To enable DoT and TLS in the unbound service you must uncomment these lines in the unbound.conf file and edit them where relevant, particularly the [server-name]:
+To enable DoT and TLS in the unbound service you must uncomment these lines in the unbound.conf file and edit them where relevant, particularly the [DOMAIN-NAME], which should bei replaced with the fully qualified domain name used earlier, again excluding the brackets:
 
 <pre>
-        #tls-service-key: "/etc/letsencrypt/live/[server-name]/privkey.pem"
-        #tls-service-pem: "/etc/letsencrypt/live/[server-name]/fullchain.pem"
+        #tls-service-key: "/etc/letsencrypt/live/[DOMAIN-NAME]/privkey.pem"
+        #tls-service-pem: "/etc/letsencrypt/live/[DOMAIN-NAME]/fullchain.pem"
         #tls-port: 853
 
         #tls-ciphers: "DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-SHA256:DHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256"
