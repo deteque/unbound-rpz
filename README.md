@@ -1,5 +1,5 @@
 # unbound
-Unbound Recursive DNS Server
+Unbound Recursive DNS Server configured to support response policy zones (RPZ) and DNS over TLS (DoT)
 
 # Installation Overview
 Beginning with version 1.10.0 unbound provides limited RPZ support. Currently unbound does not support the NSIP and NSDNAME RPZ triggers.
