@@ -7,4 +7,4 @@ docker run \
 	--volume /etc/unbound:/etc/unbound \
 	--publish 53:53 \
 	--publish 53:53/udp \
-	deteque/unbound-rpz
+	unbound-rpz

@@ -1,7 +1,7 @@
 FROM debian:buster-slim
 LABEL maintainer="Andrew Fried <afried@deteque.com>"
 ENV UNBOUND_VERSION=1.11.0
-ENV BUILD_DATE 2020-08-10
+ENV BUILD_DATE 2020-09-09
 
 RUN 	mkdir -p /etc/unbound/zonefiles \
 	&& chmod 1777 /etc/unbound \
@@ -48,8 +48,11 @@ RUN 	./configure \
 	&& make install 
 
 COPY	scripts /root/scripts
+COPY	sysctl.conf /root/unbound/sysctl.conf
+COPY	root.cache /root/unbound/root.cache
+COPY	example-rpz-settings.include /root/unbound/example-rpz-settings.include
 COPY	unbound.conf /root/unbound/unbound.conf
-COPY	unbound.conf.FULL /root/unbound/unbound.conf.DISTRIBUTION
+COPY	unbound.conf.DISTRIBUTION_1.11.0 /root/unbound/unbound.conf.DISTRIBUTION_1.11.0
 
 WORKDIR /etc/unbound
 

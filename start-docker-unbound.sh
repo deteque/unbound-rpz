@@ -1,4 +1,5 @@
 #!/bin/sh
+mkdir -p /etc/unbound/zonefiles
 /usr/bin/docker run \
 	--rm \
 	--detach \
