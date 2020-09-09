@@ -50,7 +50,6 @@ RUN 	./configure \
 COPY	scripts /root/scripts
 COPY	sysctl.conf /root/unbound/sysctl.conf
 COPY	root.cache /root/unbound/root.cache
-COPY	example-rpz-settings.include /root/unbound/example-rpz-settings.include
 COPY	unbound.conf /root/unbound/unbound.conf
 COPY	unbound.conf.DISTRIBUTION_1.11.0 /root/unbound/unbound.conf.DISTRIBUTION_1.11.0
 
