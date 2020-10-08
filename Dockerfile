@@ -1,6 +1,6 @@
 FROM debian:buster-slim
 LABEL maintainer="Andrew Fried <afried@deteque.com>"
-ENV UNBOUND_VERSION=1.11.0
+ENV UNBOUND_VERSION=1.12.0
 ENV BUILD_DATE 2020-09-09
 
 RUN 	mkdir -p /etc/unbound/zonefiles \
