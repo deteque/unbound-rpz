@@ -1,7 +1,7 @@
 #
 # Example configuration file.
 #
-# See unbound.conf(5) man page, version 1.12.0.
+# See unbound.conf(5) man page, version 1.13.1.
 #
 # this is a comment.
 
@@ -161,6 +161,9 @@ server:
 	# msec to wait before close of port on timeout UDP. 0 disables.
 	# delay-close: 0
 
+	# perform connect for UDP sockets to mitigate ICMP side channel.
+	# udp-connect: yes
+
 	# msec for waiting for an unknown server to reply.  Increase if you
 	# are behind a slow satellite link, to eg. 1128.
 	# unknown-server-time-limit: 376
@@ -191,6 +194,9 @@ server:
 
 	# minimum wait time for responses, increase if uplink is long. In msec.
 	# infra-cache-min-rtt: 50
+
+	# enable to make server probe down hosts more frequently.
+	# infra-keep-probing: no
 
 	# the number of slabs to use for the Infrastructure cache.
 	# the number of slabs must be a power of 2.
@@ -302,7 +308,7 @@ server:
 	# How to do this is specific to your OS.
 	#
 	# If you give "" no chroot is performed. The path must not end in a /.
-	# chroot: "/usr/local/etc/unbound"
+	# chroot: "/etc/unbound"
 
 	# if given, user privileges are dropped (after binding port),
 	# and the given username is assumed. Default is user "unbound".
@@ -314,7 +320,7 @@ server:
 	# is not changed.
 	# If you give a server: directory: dir before include: file statements
 	# then those includes can be relative to the working directory.
-	# directory: "/usr/local/etc/unbound"
+	# directory: "/etc/unbound"
 
 	# the log file, "" means log to stderr.
 	# Use of this option sets use-syslog to "no".
@@ -350,7 +356,7 @@ server:
 	# log-servfail: no
 
 	# the pid file. Can be an absolute path outside of chroot/work dir.
-	# pidfile: "/usr/local/etc/unbound/unbound.pid"
+	# pidfile: "/etc/unbound/unbound.pid"
 
 	# file to read root hints from.
 	# get one from https://www.internic.net/domain/named.cache
@@ -371,6 +377,9 @@ server:
 	# the version to report. Leave "" or default to return package version.
 	# version: ""
 
+	# NSID identity (hex string, or "ascii_somestring"). default disabled.
+	# nsid: "aabbccdd"
+
 	# the target fetch policy.
 	# series of integers describing the policy per dependency depth.
 	# The number of values in the list determines the maximum dependency
@@ -382,7 +391,7 @@ server:
 	# target-fetch-policy: "3 2 1 0 0"
 
 	# Harden against very small EDNS buffer sizes.
-	# harden-short-bufsize: no
+	# harden-short-bufsize: yes
 
 	# Harden against unseemly large queries.
 	# harden-large-queries: no
@@ -501,7 +510,7 @@ server:
 	# you start unbound (i.e. in the system boot scripts).  And enable:
 	# Please note usage of unbound-anchor root anchor is at your own risk
 	# and under the terms of our LICENSE (see that file in the source).
-	# auto-trust-anchor-file: "/usr/local/etc/unbound/root.key"
+	# auto-trust-anchor-file: "/etc/unbound/root.key"
 
 	# trust anchor signaling sends a RFC8145 key tag query after priming.
 	# trust-anchor-signaling: yes
@@ -588,6 +597,13 @@ server:
 	# immediately responding with expired data.  0 disables this behavior.
 	# A recommended value is 1800.
 	# serve-expired-client-timeout: 0
+
+	# Return the original TTL as received from the upstream name server rather
+	# than the decrementing TTL as stored in the cache.  Enabling this feature
+	# does not impact cache expiry, it only changes the TTL unbound embeds in
+	# responses to queries. Note that enabling this feature implicitly disables
+	# enforcement of the configured minimum and maximum TTL.
+	# serve-original-ttl: no
 
 	# Have the validator log failed validations for your diagnosis.
 	# 0: off. 1: A line per failed user query. 2: With reason and bad IP.
@@ -698,8 +714,10 @@ server:
 	# o inform acts like transparent, but logs client IP address
 	# o inform_deny drops queries and logs client IP address
 	# o inform_redirect redirects queries and logs client IP address
-	# o always_transparent, always_refuse, always_nxdomain, resolve in
-	#   that way but ignore local data for that name
+	# o always_transparent, always_refuse, always_nxdomain, always_nodata,
+	#   always_deny resolve in that way but ignore local data for
+	#   that name
+	# o always_null returns 0.0.0.0 or ::0 for any name in the zone.
 	# o noview breaks out of that view towards global local-zones.
 	#
 	# defaults are localhost address, reverse for 127.0.0.1 and ::1
@@ -747,6 +765,12 @@ server:
 	# cipher setting for TLSv1.3
 	# tls-ciphersuites: "TLS_AES_128_GCM_SHA256:TLS_AES_128_CCM_8_SHA256:TLS_AES_128_CCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256"
 
+	# Pad responses to padded queries received over TLS
+	# pad-responses: yes
+
+	# Padded responses will be padded to the closest multiple of this size.
+	# pad-responses-block-size: 468
+
 	# Use the SNI extension for TLS connections.  Default is yes.
 	# Changing the value requires a reload.
 	# tls-use-sni: yes
@@ -769,6 +793,12 @@ server:
 	# Add system certs to the cert bundle, from the Windows Cert Store
 	# tls-win-cert: no
 
+	# Pad queries over TLS upstreams
+	# pad-queries: yes
+
+	# Padded queries will be padded to the closest multiple of this size.
+	# pad-queries-block-size: 128
+
 	# Also serve tls on these port numbers (eg. 443, ...), by listing
 	# tls-additional-port: portno for each of the port numbers.
 
@@ -787,6 +817,9 @@ server:
 	# Set TCP_NODELAY socket option on sockets used for DNS-over-HTTPS
 	# service.
 	# http-nodelay: yes
+
+	# Disable TLS for DNS-over-HTTP downstream service.
+	# http-notls-downstream: no
 
 	# DNS64 prefix. Must be specified when DNS64 is use.
 	# Enable dns64 in module-config.  Used to synthesize IPv6 from IPv4.
@@ -874,7 +907,7 @@ server:
 # o and give a python-script to run.
 python:
 	# Script file to load
-	# python-script: "/usr/local/etc/unbound/ubmodule-tst.py"
+	# python-script: "/etc/unbound/ubmodule-tst.py"
 
 # Dynamic library config section. To enable:
 # o use --with-dynlibmodule to configure before compiling.
@@ -885,7 +918,7 @@ python:
 #   the module-config then you need one dynlib-file per instance.
 dynlib:
 	# Script file to load
-	# dynlib-file: "/usr/local/etc/unbound/dynlib.so"
+	# dynlib-file: "/etc/unbound/dynlib.so"
 
 # Remote control config section.
 remote-control:
@@ -908,16 +941,16 @@ remote-control:
 	# control-use-cert: "yes"
 
 	# unbound server key file.
-	# server-key-file: "/usr/local/etc/unbound/unbound_server.key"
+	# server-key-file: "/etc/unbound/unbound_server.key"
 
 	# unbound server certificate file.
-	# server-cert-file: "/usr/local/etc/unbound/unbound_server.pem"
+	# server-cert-file: "/etc/unbound/unbound_server.pem"
 
 	# unbound-control key file.
-	# control-key-file: "/usr/local/etc/unbound/unbound_control.key"
+	# control-key-file: "/etc/unbound/unbound_control.key"
 
 	# unbound-control certificate file.
-	# control-cert-file: "/usr/local/etc/unbound/unbound_control.pem"
+	# control-cert-file: "/etc/unbound/unbound_control.pem"
 
 # Stub zones.
 # Create entries like below, to make all queries for 'example.com' and
@@ -1109,4 +1142,3 @@ remote-control:
 #     rpz-log: yes
 #     rpz-log-name: "example policy"
 #     tags: "example"
-
