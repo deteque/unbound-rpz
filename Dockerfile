@@ -1,7 +1,7 @@
 FROM debian:buster-slim
 LABEL maintainer="Andrew Fried <afried@deteque.com>"
 ENV UNBOUND_VERSION=1.13.1
-ENV BUILD_DATE 2021-02-16
+ENV BUILD_DATE 2021-03-12
 
 RUN 	mkdir -p /etc/unbound/zonefiles \
 	&& chmod 1777 /etc/unbound \
@@ -43,7 +43,6 @@ RUN 	mkdir -p /etc/unbound/zonefiles \
 WORKDIR /tmp
 RUN	git clone https://github.com/google/protobuf \
         && git clone https://github.com/protobuf-c/protobuf-c \
-        && git clone https://github.com/farsightsec/fstrm  \
 	&& wget -O /tmp/unbound-${UNBOUND_VERSION}.tar.gz https://nlnetlabs.nl/downloads/unbound/unbound-${UNBOUND_VERSION}.tar.gz \
  	&& tar -zxvf unbound-${UNBOUND_VERSION}.tar.gz
 
@@ -60,13 +59,6 @@ RUN	autoreconf -i \
 	&& make \
 	&&  make install
 
-WORKDIR /tmp/fstrm
-RUN	autoreconf -i \
- 	&& ./configure \
- 	&& make \
- 	&& make install \
- 	&& ldconfig
- 
 WORKDIR /tmp/unbound-${UNBOUND_VERSION}
 RUN 	./configure \
 		--prefix=/usr \
