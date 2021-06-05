@@ -17,16 +17,16 @@ The steps to setup this docker image is as follows:
 # 1.) Create directories on the host machine
 Create two directories on your server: "/etc/unbound" and "/etc/unbound/zonefiles".  The /etc/unbound directory will be primarily used to store log and configuration files.  The /etc/unbound/zonefiles directory will be used to store the RPZ zonefiles.  The /etc/unbound directory will be bind mounted when the container is run.  You can create both directories by:
 
-  mkdir -p /etc/unbound/zonefiles
+	mkdir -p /etc/unbound/zonefiles
 
 # 2.) Run a setup script
 This setup script will need to be run:
 
-  docker run --rm -v /etc/unbound:/etc/unbound/ deteque/unbound-rpz /root/scripts/setup-unbound.sh
+	docker run --rm -v /etc/unbound:/etc/unbound/ deteque/unbound-rpz /root/scripts/setup-unbound.sh
 
 This will add keys for DNSSEC, unbound-control and create the root.cache which is necessary for a recursive name server. The root.cache should be updated periodically by running:
 
-  /usr/bin/wget --user=ftp --password=ftp ftp://ftp.rs.internic.net/domain/db.cache -O /etc/unbound/root.cache
+	/usr/bin/wget --user=ftp --password=ftp ftp://ftp.rs.internic.net/domain/db.cache -O /etc/unbound/root.cache
   
 # 3.) Create the unbound configuration file
 The primary configuration file for unbound is unbound.conf. From within the container, a "mostly" configured unbound.conf can be found at /root/unbound/unbound.conf.  The sample file contains everything needed to get the dns server up and running except for the master IPs in the RPZ section as well as ACL information. This file is truncated to include only the relevant options. The full configuration file can be found at /root/unbound/unbound.conf.DISTRIBUTION.
@@ -74,11 +74,11 @@ In order to install certificates from LetsEncrypt you will have to install "cert
 
 <pre>
 
-mkdir -p /web/certs
-cd /web/certs
-/usr/bin/wget https://dl.eff.org/certbot-auto
-chmod 700 /web/certs/certbot-auto
-/web/certs/certbot-auto certonly --standalone -d [DOMAIN-NAME]
+	mkdir -p /web/certs
+	cd /web/certs
+	/usr/bin/wget https://dl.eff.org/certbot-auto
+	chmod 700 /web/certs/certbot-auto
+	/web/certs/certbot-auto certonly --standalone -d [DOMAIN-NAME]
 
 </pre>
 
