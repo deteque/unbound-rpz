@@ -1,7 +1,7 @@
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 LABEL maintainer="Andrew Fried <afried@deteque.com>"
-ENV UNBOUND_VERSION=1.13.3
-ENV BUILD_DATE 2021-08-12
+ENV UNBOUND_VERSION=1.13.2
+ENV BUILD_DATE 2021-08-15
 
 RUN 	mkdir -p /etc/unbound/zonefiles \
 	&& chmod 1777 /etc/unbound \
