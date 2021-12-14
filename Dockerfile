@@ -74,7 +74,7 @@ COPY	scripts /root/scripts
 COPY	sysctl.conf /root/unbound/sysctl.conf
 COPY	root.cache /root/unbound/root.cache
 COPY	unbound.conf /root/unbound/unbound.conf
-COPY	unbound.conf.DISTRIBUTION_1.13.1 /root/unbound/unbound.conf.DISTRIBUTION_1.13.1
+COPY	unbound.conf.DISTRIBUTION_1.14.0 /root/unbound/unbound.conf.DISTRIBUTION_1.14.0
 
 WORKDIR /etc/unbound
 
