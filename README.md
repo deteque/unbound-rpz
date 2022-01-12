@@ -2,7 +2,7 @@
 Unbound Recursive DNS Server
 
 # Installation Overview
-Beginning with version 1.10.0 unbound provides limited RPZ support. Currently unbound does not support the NSIP and NSDNAME RPZ triggers.
+Beginning with version 1.14.0 Unbound provides full response policy zone (RPZ) support.  This page provides an overview of how to set up an RPZ enabled version of Unbound.
 
 The steps to setup this docker image is as follows:
 
