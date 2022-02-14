@@ -1,7 +1,7 @@
 FROM debian:bullseye-slim
 LABEL maintainer="Andrew Fried <afried@deteque.com>"
-ENV UNBOUND_VERSION 1.14.0
-ENV BUILD_DATE 2022-02-03
+ENV UNBOUND_VERSION 1.15.0
+ENV BUILD_DATE 2022-02-14
 
 RUN 	mkdir -p /etc/unbound/zonefiles \
 	&& chmod 1777 /etc/unbound \
@@ -74,7 +74,7 @@ COPY	scripts /root/scripts
 COPY	sysctl.conf /root/unbound/sysctl.conf
 COPY	root.cache /root/unbound/root.cache
 COPY	unbound.conf /root/unbound/unbound.conf
-COPY	unbound.conf.DISTRIBUTION_1.14.0 /root/unbound/unbound.conf.DISTRIBUTION_1.14.0
+COPY	unbound.conf.DISTRIBUTION_1.15.0 /root/unbound/unbound.conf.DISTRIBUTION_1.15.0
 
 WORKDIR /etc/unbound
 
