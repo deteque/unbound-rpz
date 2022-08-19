@@ -41,7 +41,7 @@ RUN 	mkdir -p /etc/unbound/zonefiles \
 	&& updatedb
 
 WORKDIR /tmp
-RUN	git clone https://github.com/google/protobuf \
+RUN	git clone --branch 21.x https://github.com/google/protobuf \
         && git clone https://github.com/protobuf-c/protobuf-c \
 	&& wget -O /tmp/unbound-${UNBOUND_VERSION}.tar.gz https://nlnetlabs.nl/downloads/unbound/unbound-${UNBOUND_VERSION}.tar.gz \
  	&& tar -zxvf unbound-${UNBOUND_VERSION}.tar.gz
