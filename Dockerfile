@@ -1,7 +1,7 @@
 FROM debian:bookworm-slim
 LABEL maintainer="Andrew Fried <afried@deteque.com>"
 ENV UNBOUND_VERSION 1.17.1
-ENV BUILD_DATE "2023-06-22"
+ENV BUILD_DATE "2023-06-27"
 
 RUN 	mkdir -p /etc/unbound/zonefiles \
 	&& chmod 1777 /etc/unbound \
@@ -14,14 +14,19 @@ RUN 	mkdir -p /etc/unbound/zonefiles \
 	&& apt-get -y autoremove \
 	&& apt-get install --no-install-recommends --no-install-suggests -y \
 		apt-transport-https \
+		bison \
 		build-essential \
 		ca-certificates \
 		dh-autoreconf \
 		dnstop \
+		flex \
 		git \
 		iftop \
 		libexpat1-dev \
 		libevent-dev \
+		libfstrm-dev \
+		libprotobuf-dev \
+		libprotobuf-c-dev \
 		libssl-dev \
 		lsb-release \
 		locate \
@@ -31,6 +36,7 @@ RUN 	mkdir -p /etc/unbound/zonefiles \
 		php-curl \
 		pkg-config \
 		procps \
+		protobuf-c-compiler \
 		rsync \
 		sipcalc \
 		vim \
@@ -40,24 +46,9 @@ RUN 	mkdir -p /etc/unbound/zonefiles \
 	&& sync \
 	&& updatedb
 
-WORKDIR /tmp
-RUN	git clone --branch 21.x https://github.com/google/protobuf \
-        && git clone https://github.com/protobuf-c/protobuf-c \
-	&& wget -O /tmp/unbound-${UNBOUND_VERSION}.tar.gz https://nlnetlabs.nl/downloads/unbound/unbound-${UNBOUND_VERSION}.tar.gz \
- 	&& tar -zxvf unbound-${UNBOUND_VERSION}.tar.gz
-
-WORKDIR /tmp/protobuf
-RUN	autoreconf -i \
-	&& ./configure \
-	&& make \
-	&& make install \
-	&& ldconfig
-
-WORKDIR /tmp/protobuf-c
-RUN	autoreconf -i \
-	&& ./configure \
-	&& make \
-	&&  make install
+WORKDIR /tmp/
+RUN /usr/bin/wget https://www.nlnetlabs.nl/downloads/unbound/unbound-${UNBOUND_VERSION}.tar.gz \
+	&& tar zxvf unbound-${UNBOUND_VERSION}.tar.gz
 
 WORKDIR /tmp/unbound-${UNBOUND_VERSION}
 RUN 	./configure \
