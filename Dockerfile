@@ -1,7 +1,7 @@
 FROM debian:bookworm-slim
 LABEL maintainer="Andrew Fried <afried@deteque.com>"
 ENV UNBOUND_VERSION 1.17.1
-ENV BUILD_DATE "2023-06-30"
+ENV BUILD_DATE "2023-07-25"
 
 RUN 	mkdir -p /etc/unbound/zonefiles \
 	&& chmod 1777 /etc/unbound \
@@ -65,7 +65,6 @@ COPY	scripts /root/scripts
 COPY	sysctl.conf /root/unbound/sysctl.conf
 COPY	root.cache /root/unbound/root.cache
 COPY	unbound.conf /root/unbound/unbound.conf
-COPY	unbound.conf.DISTRIBUTION_1.15.0 /root/unbound/unbound.conf.DISTRIBUTION_1.15.0
 
 WORKDIR /etc/unbound
 
@@ -73,6 +72,4 @@ EXPOSE 53/tcp
 EXPOSE 53/udp
 
 VOLUME [ "/etc/unbound" ]
-VOLUME [ "/etc/letsencrypt" ]
-
 CMD [ "/usr/sbin/unbound","-c","/etc/unbound/unbound.conf" ]

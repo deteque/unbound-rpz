@@ -4,7 +4,7 @@ mkdir -p /etc/unbound/zonefiles
 	--rm \
 	--detach \
 	--name unbound-rpz \
-	--publish 53:53 \
-	--publish 53:53/udp \
+	--network host \
 	--volume /etc/unbound:/etc/unbound \
-	deteque/unbound-rpz
+	deteque/unbound-rpz bash
+
