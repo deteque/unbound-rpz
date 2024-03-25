@@ -1,7 +1,7 @@
 FROM debian:bookworm-slim
 LABEL maintainer="Deteque <admin-deteque@spamhaus.com>"
-ENV UNBOUND_VERSION 1.19.0
-ENV BUILD_DATE "2023-11-30"
+ENV UNBOUND_VERSION 1.19.3
+ENV BUILD_DATE "2024-03-25"
 
 RUN 	mkdir -p /etc/unbound/zonefiles \
 	&& chmod 1777 /etc/unbound \
